@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import TextField from "./component/TextField";
 import Form from "./component/Form";
 import CheckboxField from "./component/CheckboxField";
@@ -9,12 +9,19 @@ export interface Info {
   confirm: boolean;
 }
 
+const defaultInfo: Info = {
+  name: "",
+  password: "",
+  confirm: false,
+};
+
+export const InfoContext = createContext({
+  value: defaultInfo,
+  setValue: (v) => {},
+});
+
 function App() {
-  const [info, setInfo] = useState<Info>({
-    name: "",
-    password: "",
-    confirm: false,
-  });
+  const [info, setInfo] = useState<Info>(defaultInfo);
 
   const onSubmit = () => {
     if (info.confirm) {
@@ -23,15 +30,15 @@ function App() {
   };
 
   return (
-    <Form onSubmit={onSubmit}>
-      <TextField source="name" value={info} setValue={setInfo} label="이름" />
-      <CheckboxField
-        value={info}
-        source="confirm"
-        setValue={setInfo}
-        label="위 내용이 제출됩니다 동의하십니까?"
-      />
-    </Form>
+    <InfoContext.Provider value={{ value: info, setValue: setInfo }}>
+      <Form onSubmit={onSubmit}>
+        <TextField source="name" label="이름" />
+        <CheckboxField
+          source="confirm"
+          label="위 내용이 제출됩니다 동의하십니까?"
+        />
+      </Form>
+    </InfoContext.Provider>
   );
 }
 

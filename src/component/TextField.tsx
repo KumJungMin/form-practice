@@ -1,12 +1,12 @@
-import React from "react";
-import { Info } from "../App";
+import React, { useContext } from "react";
+import { Info, InfoContext } from "../App";
 
 const TextField: React.FC<{
-  value: Info;
   source: keyof Info;
-  setValue: (info: Info) => void;
   label: string;
-}> = ({ value, setValue, label, source }) => {
+}> = ({ label, source }) => {
+  const { value, setValue } = useContext(InfoContext);
+
   return (
     <>
       {label}
