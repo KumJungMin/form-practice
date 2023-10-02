@@ -1,37 +1,27 @@
 import React, { useContext } from "react";
 import { Info, InfoContext, PartialInfo } from "../App";
 import { Object } from "ts-toolbelt";
+import useInput from "../hooks/useInput";
 
-type StringKeys = Object.SelectKeys<Info, string>;
+export type StringKeys = Object.SelectKeys<Info, string>;
 
 const TextField: React.FC<{
   source: StringKeys;
   label: string;
   validate: any;
 }> = ({ label, source, validate }) => {
-  const { value, setValue } = useContext(InfoContext);
-  const [error, setError] = React.useState<string>();
-
-  React.useEffect(() => {
-    // [minLength, maxLength]
-    const errors: (string | undefined)[] = validate.map(
-      (validationFunc: any) => {
-        if (value[source]) {
-          return validationFunc(value[source]);
-        }
-      }
-    );
-
-    const err = errors.find((error) => error);
-    setError(err);
-  }, [value[source]]);
+  const { error, value, onChange } = useInput({
+    source,
+    validate,
+  });
 
   return (
     <>
       {label}
       <input
-        onChange={(e) => setValue({ [source]: e.target.value } as PartialInfo)}
-        value={value[source].toString()}
+        data-testid={source}
+        onChange={(e) => onChange(e.target.value)}
+        value={value.toString()}
       />
       {error && <p style={{ color: "crimson" }}>{error}</p>}
     </>

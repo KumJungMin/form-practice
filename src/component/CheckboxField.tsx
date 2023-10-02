@@ -1,37 +1,26 @@
 import React, { useContext } from "react";
 import { Info, InfoContext } from "../App";
 import { Object } from "ts-toolbelt";
+import useInput from "../hooks/useInput";
 
-type BooleanKeys = Object.SelectKeys<Info, boolean>;
+export type BooleanKeys = Object.SelectKeys<Info, boolean>;
 
 const CheckboxField: React.FC<{
   source: BooleanKeys;
   label: string;
   validate: any;
 }> = ({ label, source, validate }) => {
-  const { value, setValue } = useContext(InfoContext);
-  const [error, setError] = React.useState<string>();
-
-  React.useEffect(() => {
-    // [checked]
-    const errors: (string | undefined)[] = validate.map(
-      (validationFunc: any) => {
-        if (value[source] !== undefined) {
-          return validationFunc(value[source]);
-        }
-      }
-    );
-
-    const err = errors.find((error) => error);
-    setError(err);
-  }, [value[source]]);
+  const { error, value, onChange } = useInput({
+    source,
+    validate,
+  });
 
   return (
     <>
       {label}
       <input
-        onChange={(e) => setValue({ [source]: e.target.checked })}
-        value={value[source].toString()}
+        onChange={(e) => onChange(e.target.checked)}
+        value={value.toString()}
         type={"checkbox"}
       />
       {error && <p style={{ color: "crimson" }}>{error}</p>}
