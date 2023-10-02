@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from "react";
 import TextField from "./component/TextField";
 import Form from "./component/Form";
 import CheckboxField from "./component/CheckboxField";
-import { maxLength, minLength } from "./validation";
+import { checked, maxLength, minLength } from "./validation";
 
 export interface Info {
   name: string;
@@ -63,6 +63,7 @@ function App() {
         <CheckboxField
           source="confirm"
           label="위 내용이 제출됩니다 동의하십니까?"
+          validate={[checked]}
         />
       </Form>
     </InfoContext.Provider>

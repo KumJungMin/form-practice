@@ -7,8 +7,24 @@ type BooleanKeys = Object.SelectKeys<Info, boolean>;
 const CheckboxField: React.FC<{
   source: BooleanKeys;
   label: string;
-}> = ({ label, source }) => {
+  validate: any;
+}> = ({ label, source, validate }) => {
   const { value, setValue } = useContext(InfoContext);
+  const [error, setError] = React.useState<string>();
+
+  React.useEffect(() => {
+    // [checked]
+    const errors: (string | undefined)[] = validate.map(
+      (validationFunc: any) => {
+        if (value[source] !== undefined) {
+          return validationFunc(value[source]);
+        }
+      }
+    );
+
+    const err = errors.find((error) => error);
+    setError(err);
+  }, [value[source]]);
 
   return (
     <>
@@ -18,6 +34,7 @@ const CheckboxField: React.FC<{
         value={value[source].toString()}
         type={"checkbox"}
       />
+      {error && <p style={{ color: "crimson" }}>{error}</p>}
     </>
   );
 };
