@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Info, InfoContext } from "../App";
 
 const CheckboxField: React.FC<{
-  source: keyof Info;
+  source: keyof Omit<Info, "name">;
   label: string;
 }> = ({ label, source }) => {
   const { value, setValue } = useContext(InfoContext);

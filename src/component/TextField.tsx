@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Info, InfoContext } from "../App";
 
 const TextField: React.FC<{
-  source: keyof Info;
+  source: keyof Omit<Info, "confirm">;
   label: string;
 }> = ({ label, source }) => {
   const { value, setValue } = useContext(InfoContext);

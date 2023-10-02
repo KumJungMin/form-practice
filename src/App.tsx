@@ -5,27 +5,25 @@ import CheckboxField from "./component/CheckboxField";
 
 export interface Info {
   name: string;
-  password: string;
   confirm: boolean;
 }
 
 const defaultInfo: Info = {
   name: "",
-  password: "",
   confirm: false,
 };
 
+type PartialInfo = { name: string } | { confirm: boolean };
+
 export const InfoContext = createContext<{
   value: Info;
-  setValue: (v: Info) => void;
+  setValue: (v: PartialInfo) => void;
 }>({
   value: defaultInfo,
   setValue: (v) => {},
 });
 
 function App() {
-  // {name: 'junsuk'}
-  // {confirm: true / false}
   const [info, setInfo] = useReducer((prevInfo: Info, partialInfo: any) => {
     return {
       ...prevInfo,
