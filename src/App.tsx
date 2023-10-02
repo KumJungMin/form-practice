@@ -13,7 +13,9 @@ const defaultInfo: Info = {
   confirm: false,
 };
 
-type PartialInfo = { name: string } | { confirm: boolean };
+type PartialInfo = {
+  [infoKey in keyof Info]: Record<infoKey, Info[infoKey]>;
+}[keyof Info];
 
 export const InfoContext = createContext<{
   value: Info;
@@ -24,12 +26,17 @@ export const InfoContext = createContext<{
 });
 
 function App() {
-  const [info, setInfo] = useReducer((prevInfo: Info, partialInfo: any) => {
-    return {
-      ...prevInfo,
-      ...partialInfo,
-    };
-  }, defaultInfo);
+  // {name: 'junsuk'}
+  // {confirm: true / false}
+  const [info, setInfo] = useReducer(
+    (prevInfo: Info, partialInfo: PartialInfo) => {
+      return {
+        ...prevInfo,
+        ...partialInfo,
+      };
+    },
+    defaultInfo
+  );
 
   const onSubmit = () => {
     if (info.confirm) {
