@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useReducer, useState } from "react";
 import TextField from "./component/TextField";
 import Form from "./component/Form";
 import CheckboxField from "./component/CheckboxField";
@@ -15,13 +15,23 @@ const defaultInfo: Info = {
   confirm: false,
 };
 
-export const InfoContext = createContext({
+export const InfoContext = createContext<{
+  value: Info;
+  setValue: (v: Info) => void;
+}>({
   value: defaultInfo,
   setValue: (v) => {},
 });
 
 function App() {
-  const [info, setInfo] = useState<Info>(defaultInfo);
+  // {name: 'junsuk'}
+  // {confirm: true / false}
+  const [info, setInfo] = useReducer((prevInfo: Info, partialInfo: any) => {
+    return {
+      ...prevInfo,
+      ...partialInfo,
+    };
+  }, defaultInfo);
 
   const onSubmit = () => {
     if (info.confirm) {
