@@ -5,11 +5,13 @@ import CheckboxField from "./component/CheckboxField";
 
 export interface Info {
   name: string;
+  password: string;
   confirm: boolean;
 }
 
 const defaultInfo: Info = {
   name: "",
+  password: "",
   confirm: false,
 };
 

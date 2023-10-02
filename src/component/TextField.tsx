@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
 import { Info, InfoContext } from "../App";
+import { Object } from "ts-toolbelt";
+
+type StringKeys = Object.SelectKeys<Info, string>;
 
 const TextField: React.FC<{
-  source: keyof Omit<Info, "confirm">;
+  source: StringKeys;
   label: string;
 }> = ({ label, source }) => {
   const { value, setValue } = useContext(InfoContext);

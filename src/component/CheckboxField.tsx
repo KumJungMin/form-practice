@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
 import { Info, InfoContext } from "../App";
+import { Object } from "ts-toolbelt";
+
+type BooleanKeys = Object.SelectKeys<Info, boolean>;
 
 const CheckboxField: React.FC<{
-  source: keyof Omit<Info, "name" | "password" | "address">;
+  source: BooleanKeys;
   label: string;
 }> = ({ label, source }) => {
   const { value, setValue } = useContext(InfoContext);
