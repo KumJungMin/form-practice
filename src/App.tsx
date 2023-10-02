@@ -3,9 +3,16 @@ import TextField from "./component/TextField";
 import Form from "./component/Form";
 import CheckboxField from "./component/CheckboxField";
 
+export interface Info {
+  name: string;
+  password: string;
+  confirm: boolean;
+}
+
 function App() {
-  const [info, setInfo] = useState({
+  const [info, setInfo] = useState<Info>({
     name: "",
+    password: "",
     confirm: false,
   });
 
@@ -17,14 +24,11 @@ function App() {
 
   return (
     <Form onSubmit={onSubmit}>
-      <TextField
-        value={info.name}
-        setValue={(v) => setInfo({ ...info, name: v })}
-        label="이름"
-      />
+      <TextField source="name" value={info} setValue={setInfo} label="이름" />
       <CheckboxField
-        value={info.confirm}
-        setValue={(v) => setInfo({ ...info, confirm: v })}
+        value={info}
+        source="confirm"
+        setValue={setInfo}
         label="위 내용이 제출됩니다 동의하십니까?"
       />
     </Form>
