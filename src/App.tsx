@@ -15,7 +15,7 @@ const defaultInfo: Info = {
   confirm: false,
 };
 
-type PartialInfo = {
+export type PartialInfo = {
   [infoKey in keyof Info]: Record<infoKey, Info[infoKey]>;
 }[keyof Info];
 
